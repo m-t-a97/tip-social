@@ -1,46 +1,92 @@
-# Getting Started with Create React App
+# Social Network Dapp
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Setup
 
-## Available Scripts
+Install the dependencies for the app.
 
-In the project directory, you can run:
+```bash
+npm install
+```
 
-### `yarn start`
+Then install truffle globally:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+npm i -g truffle
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `yarn test`
+## Ganache
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Use the `Muir Glacier Hard Fork` in Ganache as it was the hard fork version used when developing this app.
 
-### `yarn build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running the app
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Navigate to the `src/blockchain` folder and do the following:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+truffle compile --all
+truffle migrate --network development
+```
 
-### `yarn eject`
+Then navigate back to the root of the project and run:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Contracts
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Navigate to the `blockchain` folder:
 
-## Learn More
+```bash
+# Compile contracts
+truffle compile --all
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# To migrate contracts
+truffle migrate --reset --network development
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Connect to localhost running ganache via console to run commands on smart contracts
+truffle console --network development
+
+# To run tests on the smart contracts
+truffle test
+```
+
+---
+
+## Commands for Truffle console
+
+```bash
+# Fetching all accounts
+accounts = await web3.eth.getAccounts()
+
+# Get a reference to the deployed contract
+socialNetwork = await SocialNetwork.deployed()
+
+# Useful util commands to use within the truffle console
+web3.utils.toWei("0.025", "ether")
+web3.utils.fromWei("25000000000000000", "ether")
+```
+
+---
+
+## MetaMask
+
+To connect your wallet to MetaMask, copy the private key from one of your ganache wallet addresses and then import it into MetaMask. Make sure to switch to the Ganache network to see the Ether in your account's wallet.
+
+---
+
+## Local Development
+
+Add `localhost` as the value of `development.host` in the `networks` config in the `truffle-config.js` file to work with Ganache GUI locally.
+
+### Using Docker:
+
+If using Docker on Windows using WSL2, add `host.docker.internal` as the value of `development.host` in the `networks` config within `truffle-config.js`. This will allow you to connect from within Docker to the Windows host running Ganache.
+
+---
