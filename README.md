@@ -2,16 +2,16 @@
 
 ## Setup
 
-Install the dependencies for the app.
-
-```bash
-npm install
-```
-
-Then install truffle globally:
+Install truffle globally:
 
 ```bash
 npm i -g truffle
+```
+
+Install the dependencies for the app.
+
+```bash
+yarn install
 ```
 
 ---
@@ -34,7 +34,7 @@ truffle migrate --network development
 Then navigate back to the root of the project and run:
 
 ```bash
-npm start
+yarn start
 ```
 
 ---
