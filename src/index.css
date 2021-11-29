@@ -1,3 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-text-color: black;
+  --secondary-text-color: #393e46;
+}
+
 html,
 body {
   height: 100%;
@@ -5,9 +12,8 @@ body {
   margin: 0;
   padding: 0;
   font-size: 16px;
-  font-family: "Roboto", sans-serif;
-  color: white;
-  background-color: #0f2c67;
+  font-family: "Poppins", sans-serif;
+  background-color: #ededed;
 }
 
 #root {

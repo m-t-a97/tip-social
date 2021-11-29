@@ -16,14 +16,12 @@ export const SmartContractsContext =
   createContext<SmartContractsContextType>(null);
 
 function SmartContractsContextProvider({ children }): JSX.Element {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isSmartContractsInitialised, setIsSmartContractsInitialised] =
     useState<boolean>(false);
-
-  const value: SmartContractsContextType = {
-    socialNetworkContract: null,
-  };
+  const [smartContractsContextTypeValue, setSmartContractsContextTypeValue] =
+    useState<SmartContractsContextType>(null);
 
   useEffect(() => {
     async function initialiseContracts(): Promise<void> {
@@ -35,12 +33,12 @@ function SmartContractsContextProvider({ children }): JSX.Element {
       const networkData = socialNetworkContractAsJson.networks[networkId];
 
       if (!_.isNil(networkData)) {
-        value.socialNetworkContract = new SocialNetworkContractService(
-          socialNetworkContractAsJson.abi as any,
-          networkData.address
-        );
-
-        console.log(value.socialNetworkContract);
+        setSmartContractsContextTypeValue({
+          socialNetworkContract: new SocialNetworkContractService(
+            socialNetworkContractAsJson.abi as any,
+            networkData.address
+          ),
+        });
 
         setIsSmartContractsInitialised(true);
       } else {
@@ -73,7 +71,7 @@ function SmartContractsContextProvider({ children }): JSX.Element {
       )}
 
       {!isLoading && _.isEmpty(errorMessage) && isSmartContractsInitialised && (
-        <SmartContractsContext.Provider value={value}>
+        <SmartContractsContext.Provider value={smartContractsContextTypeValue}>
           {children}
         </SmartContractsContext.Provider>
       )}

@@ -24,10 +24,12 @@ const StyledNav = styled.nav`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: #2e4c6d;
+  background-color: #0f2c67;
 `;
 
-const StyledTitle = styled.h3``;
+const StyledTitle = styled.h3`
+  color: white;
+`;
 
 const StyledTooltipIconContainer = styled.div`
   padding: 0.1rem;
