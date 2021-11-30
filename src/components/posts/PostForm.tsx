@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import styled from "@emotion/styled";
-import { Button, CircularProgress, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, TextField, Typography, useTheme } from "@mui/material";
 import _ from "lodash";
 
 import { SmartContractsContextType } from "src/context/blockchain/SmartContractsContextProvider";
@@ -15,6 +15,24 @@ interface FormInputs {
 }
 
 function PostForm(): JSX.Element {
+  const theme = useTheme();
+
+  const StyledForm = styled.form`
+    width: 100%;
+    max-width: ${theme.breakpoints.values.md}px;
+    margin: 1rem auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  `;
+
+  const StyledErrorMessage = styled.p`
+    margin-bottom: 1rem;
+    color: red;
+    font-weight: medium;
+  `;
+
   const {
     control,
     handleSubmit,
@@ -45,6 +63,7 @@ function PostForm(): JSX.Element {
     } catch (error) {
       console.error("[PostForm][onCreatePost]", error);
       setErrorMessage(error.message);
+      setIsCreatingPost(false);
     }
   }
 
@@ -59,7 +78,11 @@ function PostForm(): JSX.Element {
             variant="outlined"
             placeholder="Go on...articulate yourself :)"
             error={_.isEqual(errors?.content, "required")}
-            sx={{ width: "100%", border: "white" }}
+            sx={{
+              width: "100%",
+              fontSize: 16,
+              color: "text.primary",
+            }}
             {...field}
           />
         )}
@@ -75,7 +98,7 @@ function PostForm(): JSX.Element {
         disabled={isCreatingPost || !isValid}
         sx={{
           width: "100%",
-          margin: "1rem 0rem",
+          margin: "1rem 0 0 0",
           fontWeight: 600,
         }}
       >
@@ -88,21 +111,5 @@ function PostForm(): JSX.Element {
     </StyledForm>
   );
 }
-
-const StyledForm = styled.form`
-  width: 100%;
-  max-width: 768px;
-  margin: 1rem auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledErrorMessage = styled.p`
-  margin: 1rem 0 0 0;
-  color: red;
-  font-weight: medium;
-`;
 
 export default PostForm;

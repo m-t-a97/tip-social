@@ -4,6 +4,16 @@ import PostForm from "./PostForm";
 import PostsList from "./PostsList";
 
 function PostsDashboard(): JSX.Element {
+  const StyledContainer = styled.div`
+    height: 100%;
+    padding: 1rem;
+  `;
+
+  const StyledTitle = styled.h1`
+    margin: 0 1rem 1rem 1rem;
+    text-align: center;
+  `;
+
   return (
     <StyledContainer>
       <StyledTitle>Posts</StyledTitle>
@@ -12,14 +22,5 @@ function PostsDashboard(): JSX.Element {
     </StyledContainer>
   );
 }
-
-const StyledContainer = styled.div`
-  height: 100%;
-  padding: 1rem;
-`;
-
-const StyledTitle = styled.h1`
-  text-align: center;
-`;
 
 export default PostsDashboard;

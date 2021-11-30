@@ -33,7 +33,10 @@ export class SocialNetworkContractService {
   }
 
   public async tipPost(id: number, account: string): Promise<any> {
-    return this.contract.methods.tipPost(id).send({ from: account });
+    return this.contract.methods.tipPost(id).send({
+      from: account,
+      value: Web3Service.web3Instance.utils.toWei("0.1", "ether"),
+    });
   }
 
   public onPostCreated(): any {
@@ -44,8 +47,18 @@ export class SocialNetworkContractService {
           console.error(event);
           return;
         }
+      }
+    );
+  }
 
-        console.log("[SocialNetworkContractService][onPostCreated]:", event);
+  public onPostTipped(): any {
+    return this.contract.events.PostTipped(
+      {},
+      function (error: any, event: any) {
+        if (error) {
+          console.error(event);
+          return;
+        }
       }
     );
   }
