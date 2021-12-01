@@ -36,6 +36,7 @@ function PostForm(): JSX.Element {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, isValid },
   } = useForm<FormInputs>({
     mode: "onChange",
@@ -59,6 +60,7 @@ function PostForm(): JSX.Element {
         setIsCreatingPost(true);
         await socialNetworkContract.createPost(data.content, account);
         setIsCreatingPost(false);
+        reset();
       }
     } catch (error) {
       console.error("[PostForm][onCreatePost]", error);

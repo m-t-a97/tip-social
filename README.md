@@ -1,4 +1,6 @@
-# Social Network Dapp
+# Ditter
+
+A decentralised clone of Twitter with minimal features.
 
 ## Setup
 

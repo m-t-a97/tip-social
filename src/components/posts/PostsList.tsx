@@ -41,7 +41,7 @@ function PostsList(): JSX.Element {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isNewPostCreated, setIsNewPostCreated] = useState<boolean>(false);
   const [isPostTipped, setIsPostTipped] = useState<boolean>(false);
-  let onPostCreatedSubscription: any;
+  let onPostCreated_$: any;
 
   useEffect(() => {
     async function fetchPosts(): Promise<void> {
@@ -55,11 +55,11 @@ function PostsList(): JSX.Element {
     fetchPosts();
     onPostCreated();
 
-    return onPostCreatedSubscription;
+    return onPostCreated_$;
   }, [isNewPostCreated, isPostTipped]);
 
   async function onPostCreated() {
-    onPostCreatedSubscription = socialNetworkContract
+    onPostCreated_$ = socialNetworkContract
       .onPostCreated()
       .on("data", (event: any) => {
         setIsNewPostCreated(true);

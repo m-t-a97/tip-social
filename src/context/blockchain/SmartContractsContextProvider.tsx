@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 
-import { CircularProgress } from "@mui/material";
 import styled from "@emotion/styled";
+import { CircularProgress } from "@mui/material";
 import _ from "lodash";
 
+import { SocialNetworkContractService } from "src/services/blockchain/contracts/social-network-contract.service";
 import { Web3Service } from "src/services/blockchain/web3.service";
 import socialNetworkContractAsJson from "../../blockchain/build/contracts/SocialNetwork.json";
-import { SocialNetworkContractService } from "src/services/blockchain/contracts/social-network-contract.service";
 
 export type SmartContractsContextType = {
   socialNetworkContract: SocialNetworkContractService;
@@ -16,6 +16,22 @@ export const SmartContractsContext =
   createContext<SmartContractsContextType>(null);
 
 function SmartContractsContextProvider({ children }): JSX.Element {
+  const StyledContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  `;
+
+  const StyledErrorMessage = styled.p`
+    margin: 0;
+    color: red;
+    font-size: 16px;
+    text-align: center;
+  `;
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isSmartContractsInitialised, setIsSmartContractsInitialised] =
@@ -78,21 +94,5 @@ function SmartContractsContextProvider({ children }): JSX.Element {
     </>
   );
 }
-
-const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledErrorMessage = styled.p`
-  margin: 0;
-  color: red;
-  font-size: 16px;
-  text-align: center;
-`;
 
 export default SmartContractsContextProvider;

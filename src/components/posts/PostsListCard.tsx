@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import styled from "@emotion/styled";
-import { Button, Card, CardActions, CardContent, CardHeader, Typography, useTheme } from "@mui/material";
+import { Button, Card, CardActions, CardContent, CardHeader, CircularProgress, Typography, useTheme } from "@mui/material";
 import _ from "lodash";
 
 import { SmartContractsContextType } from "src/context/blockchain/SmartContractsContextProvider";
@@ -22,10 +22,6 @@ function PostsListCard({
   setPostIsTipped,
 }: PostsListCardProps): JSX.Element {
   const theme = useTheme();
-
-  const { account }: WalletAccountContextType = useWalletAccount();
-  const { socialNetworkContract }: SmartContractsContextType =
-    useSmartContracts();
 
   const StyledContainer = styled.div`
     width: 100%;
@@ -51,10 +47,20 @@ function PostsListCard({
     }
   `;
 
+  const { account }: WalletAccountContextType = useWalletAccount();
+  const { socialNetworkContract }: SmartContractsContextType =
+    useSmartContracts();
+
   const [isTippingPost, setIsTippingPost] = useState<boolean>(false);
+
+  let onPostTipped_$: any;
 
   useEffect(() => {
     onPostTipped();
+
+    return () => {
+      onPostTipped_$?.unsubscribe();
+    };
   }, []);
 
   async function onTipPost(): Promise<void> {
@@ -70,9 +76,11 @@ function PostsListCard({
 
   async function onPostTipped(): Promise<void> {
     try {
-      await socialNetworkContract.onPostTipped().on("data", (event: any) => {
-        setPostIsTipped();
-      });
+      onPostTipped_$ = await socialNetworkContract
+        .onPostTipped()
+        .on("data", (event: any) => {
+          setPostIsTipped();
+        });
     } catch (error) {
       console.error("[PostsListCard][onPostTipped]", error);
     }
@@ -110,7 +118,7 @@ function PostsListCard({
               fontWeight: "bold",
             }}
           >
-            Tip Amount:{" "}
+            Tip Amount:&nbsp;
             {Web3Service.web3Instance.utils.fromWei(
               post.tipAmount.toString(),
               "ether"
@@ -125,7 +133,18 @@ function PostsListCard({
               disabled={isTippingPost}
               onClick={onTipPost}
             >
-              TIP 0.1 ETH
+              {isTippingPost && <CircularProgress size={20} />}
+
+              {!isTippingPost && (
+                <Typography
+                  sx={{
+                    fontSize: 14,
+                    fontWeight: "bold",
+                  }}
+                >
+                  TIP 0.1 ETH
+                </Typography>
+              )}
             </Button>
           )}
         </CardActions>
