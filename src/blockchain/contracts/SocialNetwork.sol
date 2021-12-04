@@ -15,21 +15,21 @@ contract SocialNetwork {
 
   struct Post {
     uint256 id;
-    address payable author;
+    address author;
     string content;
     uint256 tipAmount;
   }
 
   event PostCreated(
-    uint256 id,
-    address payable author,
+    uint256 indexed id,
+    address indexed author,
     string content,
     uint256 tipAmount
   );
 
   event PostTipped(
-    uint256 id,
-    address payable author,
+    uint256 indexed id,
+    address indexed author,
     string content,
     uint256 tipAmount
   );
@@ -43,16 +43,16 @@ contract SocialNetwork {
 
     postsIdCounter.increment();
     uint256 id = postsIdCounter.current();
-    posts[id] = Post(id, payable(msg.sender), _content, 0);
-    emit PostCreated(id, payable(msg.sender), _content, 0);
+    posts[id] = Post(id, msg.sender, _content, 0);
+    emit PostCreated(id, msg.sender, _content, 0);
   }
 
   function tipPost(uint256 _id) public payable {
     require(_id > 0 && _id <= postsIdCounter.current(), "You cannot tip a post that does not exist.");
 
     Post memory post = posts[_id];
-    address payable author = post.author;
-    author.transfer(msg.value);
+    address author = post.author;
+    payable(author).transfer(msg.value);
     post.tipAmount += msg.value;
     posts[_id] = post;
     emit PostTipped(_id, post.author, post.content, post.tipAmount);

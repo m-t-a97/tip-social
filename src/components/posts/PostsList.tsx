@@ -48,14 +48,21 @@ function PostsList(): JSX.Element {
       setIsNewPostCreated(false);
       setIsPostTipped(false);
       const posts = await socialNetworkContract.getPosts();
-      setPosts(posts);
+      setPosts(() => {
+        const sortedPosts = [
+          ...posts.sort((a, b) => b.tipAmount - a.tipAmount),
+        ];
+        return sortedPosts;
+      });
       dispatch(updatePosts(posts));
     }
 
     fetchPosts();
     onPostCreated();
 
-    return onPostCreated_$;
+    return () => {
+      onPostCreated_$?.unsubscribe();
+    };
   }, [isNewPostCreated, isPostTipped]);
 
   async function onPostCreated() {

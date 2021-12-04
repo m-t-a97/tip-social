@@ -44,7 +44,7 @@ export class SocialNetworkContractService {
       {},
       function (error: any, event: any) {
         if (error) {
-          console.error(event);
+          console.error(error);
           return;
         }
       }
@@ -56,7 +56,7 @@ export class SocialNetworkContractService {
       {},
       function (error: any, event: any) {
         if (error) {
-          console.error(event);
+          console.error(error);
           return;
         }
       }

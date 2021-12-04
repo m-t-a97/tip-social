@@ -8,6 +8,7 @@ import { SmartContractsContextType } from "src/context/blockchain/SmartContracts
 import { WalletAccountContextType } from "src/context/blockchain/WalletAccountContextProvider";
 import useSmartContracts from "src/hooks/blockchain/useSmartContracts";
 import useWalletAccount from "src/hooks/blockchain/useWalletAccount";
+import { PostMapper } from "src/models/mappers/post.mapper";
 import { Post } from "src/models/post.model";
 import { Web3Service } from "src/services/blockchain/web3.service";
 import SvgTooltipIcon from "../shared/SvgTooltipIcon";
@@ -63,6 +64,20 @@ function PostsListCard({
     };
   }, []);
 
+  async function onPostTipped(): Promise<void> {
+    try {
+      onPostTipped_$ = await socialNetworkContract
+        .onPostTipped()
+        .on("data", (event: any) => {
+          if (PostMapper.transform(event.returnValues).id == post.id) {
+            setPostIsTipped();
+          }
+        });
+    } catch (error) {
+      console.error("[PostsListCard][onPostTipped]", error);
+    }
+  }
+
   async function onTipPost(): Promise<void> {
     try {
       setIsTippingPost(true);
@@ -71,18 +86,6 @@ function PostsListCard({
     } catch (error) {
       console.error("[PostsListCard][onTipPost]", error);
       setIsTippingPost(false);
-    }
-  }
-
-  async function onPostTipped(): Promise<void> {
-    try {
-      onPostTipped_$ = await socialNetworkContract
-        .onPostTipped()
-        .on("data", (event: any) => {
-          setPostIsTipped();
-        });
-    } catch (error) {
-      console.error("[PostsListCard][onPostTipped]", error);
     }
   }
 

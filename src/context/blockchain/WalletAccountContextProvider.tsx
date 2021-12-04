@@ -1,13 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 
+import styled from "@emotion/styled";
 import { CircularProgress } from "@mui/material";
 import _ from "lodash";
-import Web3 from "web3";
 import { interval, Subscription } from "rxjs";
 import { tap } from "rxjs/operators";
+import Web3 from "web3";
 
 import { Web3Service } from "src/services/blockchain/web3.service";
-import styled from "@emotion/styled";
 
 export type WalletAccountContextType = {
   account: string;
@@ -60,6 +60,7 @@ function WalletAccountContextProvider({ children }): JSX.Element {
   ) : (
     <StyledContainer>
       <CircularProgress />
+      <p>Connecting to wallet...</p>
     </StyledContainer>
   );
 }
@@ -68,7 +69,7 @@ const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
