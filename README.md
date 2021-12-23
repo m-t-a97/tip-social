@@ -1,5 +1,7 @@
 # TipSocial
 
+![tipsocial-project](https://user-images.githubusercontent.com/54685928/147241253-ca4a5b81-a0aa-49fb-bc1c-35374c41408d.png)
+
 A decentralised social app that let's users make posts and be able to tip other users' posts.
 
 ## Features
